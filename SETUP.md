@@ -14,6 +14,9 @@ Activate virtual env:
 Deactivate virtual env:
 1. deactivate
 
+Run tests:
+1. Activate virtual env
+2. python manage.py test cars_park_api
 
 
 
