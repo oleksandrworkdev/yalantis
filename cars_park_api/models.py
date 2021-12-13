@@ -2,7 +2,7 @@ from django.db import models
 from datetime import datetime
 from django.utils.timezone import make_aware
 
-DB_DATE_FORMAT = '%d-%m-%Y'
+DATE_FORMAT = '%d-%m-%Y'
 
 
 class TimeStampMixin(models.Model):
@@ -19,12 +19,12 @@ class Driver(TimeStampMixin):
 
     @classmethod
     def get_created_at__gte(cls, date_str):
-        date = make_aware(datetime.strptime(date_str, DB_DATE_FORMAT))
+        date = make_aware(datetime.strptime(date_str, DATE_FORMAT))
         return cls.objects.filter(created_at__gte=date)
 
     @classmethod
     def get_created_at__lte(cls, date_str):
-        date = make_aware(datetime.strptime(date_str, DB_DATE_FORMAT))
+        date = make_aware(datetime.strptime(date_str, DATE_FORMAT))
         return cls.objects.filter(created_at__lte=date)
 
     def __str__(self):

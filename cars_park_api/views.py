@@ -23,16 +23,16 @@ def driver_index(request: HttpRequest):
         first_name = request.GET.get('first_name')
         last_name = request.GET.get('last_name')
         if not first_name or not last_name:
-            response_with_message('Error. Missing firstname or lastname.')
+            return response_with_message('Error. Missing firstname or lastname.')
         else:
             try:
                 new_driver = Driver(first_name=first_name, last_name=last_name)
                 new_driver.save()
-                response_with_message(f'Successfully created {new_driver}', payload=driver_to_dict(new_driver))
+                return response_with_message(f'Successfully created {new_driver}', payload=driver_to_dict(new_driver))
             except Exception as err:
-                response_with_message('Error. Creating driver failed.', payload=err, error=True)
+                return response_with_message('Error. Creating driver failed.', payload=err, error=True)
     else:
-        response_with_message('Error. Unsupported method.', True)
+        return response_with_message('Error. Unsupported method.', True)
 
 
 def driver_detail(request: HttpRequest, driver_id):
@@ -44,15 +44,15 @@ def driver_detail(request: HttpRequest, driver_id):
         driver.last_name = request.POST.get('last_name', driver.last_name)
         try:
             driver.save()
-            response_with_message(f'Successfully updated {driver}', payload=driver_to_dict(driver))
+            return response_with_message(f'Successfully updated {driver}', payload=driver_to_dict(driver))
         except Exception as err:
-            response_with_message('Error. Updating driver failed.', payload=err, error=True)
+            return response_with_message('Error. Updating driver failed.', payload=err, error=True)
 
     elif request.method == 'DELETE':
         driver.delete()
-        response_with_message(f'Successfully deleted driver {driver}')
+        return response_with_message(f'Successfully deleted driver {driver}')
     else:
-        response_with_message('Error. Unsupported method.', True)
+        return response_with_message('Error. Unsupported method.', True)
 
 
 def vehicle_index(request: HttpRequest):
@@ -68,16 +68,16 @@ def vehicle_index(request: HttpRequest):
         model = request.POST.get('model')
         plate_number = request.POST.get('plate_number')
         if not make or not model or not plate_number:
-            response_with_message('Error. Missing make or model or plate_number.')
+            return response_with_message('Error. Missing make or model or plate_number.')
         else:
             try:
                 new_vehicle = Vehicle(make=make, model=model, plate_number=plate_number)
                 new_vehicle.save()
-                response_with_message(f'Successfully created {new_vehicle}', payload=vehicle_to_dict(new_vehicle))
+                return response_with_message(f'Successfully created {new_vehicle}', payload=vehicle_to_dict(new_vehicle))
             except Exception as err:
-                response_with_message('Error. Creating vehicle failed.', payload=err, error=True)
+                return response_with_message('Error. Creating vehicle failed.', payload=err, error=True)
     else:
-        response_with_message('Error. Unsupported method.', True)
+        return response_with_message('Error. Unsupported method.', True)
 
 
 def vehicle_detail(request: HttpRequest, vehicle_id):
@@ -90,14 +90,14 @@ def vehicle_detail(request: HttpRequest, vehicle_id):
         vehicle.plate_number = request.POST.get('plate_number', vehicle.plate_number)
         try:
             vehicle.save()
-            response_with_message(f'Successfully updated {vehicle}', payload=vehicle_to_dict(vehicle))
+            return response_with_message(f'Successfully updated {vehicle}', payload=vehicle_to_dict(vehicle))
         except Exception as err:
-            response_with_message('Error. Updating vehicle failed.', payload=err, error=True)
+            return response_with_message('Error. Updating vehicle failed.', payload=err, error=True)
     elif request.method == 'DELETE':
         vehicle.delete()
-        response_with_message(f'Successfully deleted vehicle {vehicle}')
+        return response_with_message(f'Successfully deleted vehicle {vehicle}')
     else:
-        response_with_message('Error. Unsupported method.', True)
+        return response_with_message('Error. Unsupported method.', True)
 
 
 def vehicle_set_driver(request: HttpRequest, vehicle_id):
@@ -113,8 +113,8 @@ def vehicle_set_driver(request: HttpRequest, vehicle_id):
         vehicle.driver = driver
         try:
             vehicle.save()
-            response_with_message(f'Successfully set driver for vehicle {vehicle}')
+            return response_with_message(f'Successfully set driver for vehicle {vehicle}')
         except Exception as err:
             response_with_message('Error. Setting vehicle driver failed.', payload=err, error=True)
     else:
-        response_with_message('Error. Unsupported method.', True)
+        return response_with_message('Error. Unsupported method.', True)
